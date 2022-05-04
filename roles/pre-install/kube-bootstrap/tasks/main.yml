@@ -1,0 +1,12 @@
+---
+# tasks file for kube-bootstrap
+
+- name: "kernel settings"
+  ansible.builtin.include_tasks:
+    file: "kernel-settings.yml"
+
+- name: "install kubernetes requirements"
+  ansible.builtin.include_tasks:
+    file: "kuber-requirements.yml"
+
+...

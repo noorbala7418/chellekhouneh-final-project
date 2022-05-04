@@ -1,0 +1,5 @@
+---
+# defaults file for kube-bootstrap
+kube_component_version: "1.23.6-00"
+
+...
