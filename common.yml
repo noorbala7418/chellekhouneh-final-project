@@ -1,0 +1,30 @@
+---
+- name: upgrade and install common packages on all servers
+  hosts: all
+  gather_facts: false
+  become: true
+  roles:
+    - role: "roles/pre-install/common"
+      tags:
+        - setup_common_packs
+
+- name: install docker on all servers
+  hosts: all
+  gather_facts: true
+  become: true
+  roles:
+    - role: "roles/pre-install/docker-setup"
+      tags:
+        - setup_common_docker
+
+- name: install kubernetes package on kuber nodes 
+  hosts: kuber_nodes
+  gather_facts: true
+  become: true
+  roles:
+    - role: "roles/pre-install/kube-bootstrap"
+      tags:
+        - bootstrap_kuber
+
+- import_playbook: "playbooks/network.yml"
+...
