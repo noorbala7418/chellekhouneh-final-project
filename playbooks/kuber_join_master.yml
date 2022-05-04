@@ -1,0 +1,35 @@
+---
+
+- name: get master join token from master1 as a fact
+  hosts: master1
+  become: true
+  gather_facts: true
+  tasks:
+    - name: Get join command
+      shell: cat cluster_init.txt | egrep -A2 ".+kubeadm join((.|\n)+).+"
+      args:
+        chdir: $HOME
+      register: join_master_command_raw
+
+    - name: Set join command
+      set_fact:
+        join_master_command: "{{ join_master_command_raw.stdout }}"
+
+- name: join worker nodes with token
+  hosts: masters,!master1
+  become: true
+  gather_facts: true
+  tasks:
+    - name: Remove debug file
+      ansible.builtin.file:
+        path: $HOME/master_joined.txt
+        state: absent
+
+    - name: Join cluster
+      ansible.builtin.shell: "{{ hostvars['master1'].join_master_command }} >> master_joined.txt"
+      args:
+        chdir: $HOME
+        creates: master_joined.txt
+      register: node
+
+...
