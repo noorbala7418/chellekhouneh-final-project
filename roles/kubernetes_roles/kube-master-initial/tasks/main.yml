@@ -1,0 +1,33 @@
+---
+# tasks file for kube-master-initial
+- name: Remove old cluster init file
+  ansible.builtin.file:
+    path: $HOME/cluster_init.txt
+    state: absent
+
+- name: Initialize the cluster
+  ansible.builtin.shell: "kubeadm init \
+    --upload-certs \
+    --pod-network-cidr={{ pod_network_cidr }} \
+    --apiserver-advertise-address={{ hostvars['master1']['private_ip'] }} \
+    --control-plane-endpoint \"{{ hostvars['lb']['private_ip'] }}:6443\" >> cluster_init.txt"
+  args:
+    chdir: $HOME
+    creates: cluster_init.txt
+
+- name: Remove pod network debug file
+  ansible.builtin.file:
+    path: $HOME/pod_network.txt
+    state: absent
+
+- name: Install Pod network
+  ansible.builtin.shell: kubectl apply -f "https://cloud.weave.works/k8s/net?k8s-version=$(kubectl version | base64 | tr -d '\n')" >> pod_network.txt
+  args:
+    chdir: $HOME
+    creates: pod_network.txt
+  retries: 3
+  delay: 10
+  register: result
+  until: result is succeeded
+
+...
