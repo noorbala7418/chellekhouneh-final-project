@@ -1,0 +1,15 @@
+---
+# tasks file for kubeadm_custom_image
+- name: copy kubeadm config for custom mirror
+  ansible.builtin.template:
+    src: kubeconfig.yml.j2
+    dest: /tmp/kubeconfig.yml
+    mode: 0644
+    owner: root
+    group: root
+  register: kubeadm_config_copied
+
+- name: download require images
+  ansible.builtin.shell: "kubeadm config images pull --config=/tmp/kubeconfig.yml"
+  when: kubeadm_config_copied.changed == true
+...
