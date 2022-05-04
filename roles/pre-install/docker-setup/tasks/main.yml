@@ -1,0 +1,23 @@
+---
+- name: setup docker role
+  become: true
+  tags: setup_docker
+  block: 
+    - name: set custom dns
+      ansible.builtin.include_tasks:
+        file: "dns-setter.yml"
+      tags: docker_dns_setter
+
+    - name: "install docker"
+      ansible.builtin.include_tasks:
+        file: "install-docker.yml"
+      tags:
+        - install_docker
+
+    - name: "install docker CRI"
+      ansible.builtin.include_tasks:
+        file: "docker-cri.yml"
+      tags:
+        - install_docker_cri
+
+...

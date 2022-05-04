@@ -1,0 +1,45 @@
+---
+
+- name: setup docker cri
+  ansible.builtin.unarchive:    
+    src: "{{ cri_url }}"
+    dest: /tmp
+    remote_src: yes
+
+- name: move crifile to /usr/local/bin
+  ansible.builtin.copy:
+    src: /tmp/cri-dockerd
+    dest: /usr/local/bin/cri-dockerd
+    remote_src: true
+    mode: 0755
+    owner: root
+    group: root
+
+- name: copy docker cri service file
+  ansible.builtin.copy:
+    src: cri-docker.service
+    dest: /etc/systemd/system/cri-docker.service
+    mode: 0644
+    owner: root
+    group: root
+
+- name: copy docker cri socket file
+  ansible.builtin.copy:
+    src: cri-docker.socket
+    dest: /etc/systemd/system/cri-docker.socket
+    mode: 0644
+    owner: root
+    group: root
+
+- name: start and enable cri service
+  ansible.builtin.systemd:
+    name: cri-docker.service
+    daemon_reload: true
+    state: started
+
+- name: start and enable cri socket
+  ansible.builtin.systemd:
+    name: cri-docker.socket
+    state: started
+
+...

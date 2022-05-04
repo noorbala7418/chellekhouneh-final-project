@@ -1,0 +1,8 @@
+---
+- name: add new DNS for sanctions
+  ansible.builtin.lineinfile:
+    insertbefore: BOF
+    line: "nameserver {{ shecan_dns }}"
+    path: /etc/resolv.conf
+    mode: '0644'
+...
