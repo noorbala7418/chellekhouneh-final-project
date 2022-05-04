@@ -1,0 +1,13 @@
+[defaults]
+inventory = hosts.yml
+host_key_checking = False
+interpreter_python=/usr/bin/python3
+private_key_file = /home/ubuntu/.ssh/id_rsa
+nocows = 1
+
+
+[ssh_connection]
+scp_if_ssh=True
+control_path = none
+ssh_args=-oUserKnownHostsFile=/dev/null -oStrictHostKeyChecking=no -oServerAliveInterval=60 -oConnectionAttempts=20
+retries=10
