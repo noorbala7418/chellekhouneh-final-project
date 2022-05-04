@@ -1,0 +1,11 @@
+---
+
+- name: setup loadbalancer
+  hosts: loadbalancers
+  gather_facts: false
+  become: true
+  tags: lb_setup
+  roles: 
+    - role: "../roles/kubernetes_roles/kube-loadbalancer"
+
+...
