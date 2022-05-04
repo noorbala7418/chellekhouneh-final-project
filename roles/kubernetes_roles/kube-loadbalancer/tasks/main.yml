@@ -1,0 +1,29 @@
+---
+# tasks file for kube-loadbalancer
+- name: create config directory for haproxy
+  ansible.builtin.file:
+    path: "{{ haproxy_conf_dir }}"
+    mode: 0755
+    owner: root
+    group: root
+    state: directory
+
+- name: copy haproxy config file
+  ansible.builtin.template:
+    src: haproxy.cfg.j2
+    dest: "{{ haproxy_conf_dir }}/haproxy.cfg"
+    mode: 0644
+    owner: root
+    group: root
+
+- name: run haproxy container
+  community.docker.docker_container:
+    name: kube-ha-proxy
+    image: "{{ haproxy_img_name }}"
+    network_mode: host
+    volumes:
+      - "{{ haproxy_conf_dir }}/haproxy.cfg:/usr/local/etc/haproxy/haproxy.cfg"
+    restart_policy: always
+    detach: true
+
+...

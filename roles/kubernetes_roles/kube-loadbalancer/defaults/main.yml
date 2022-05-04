@@ -1,0 +1,5 @@
+---
+# defaults file for kube-loadbalancer
+haproxy_conf_dir: "/opt/haproxy"
+haproxy_img_name: "dockerhub.ir/haproxy:2.4.16-alpine3.15"
+...
