@@ -1,0 +1,5 @@
+---
+# defaults file for nginx-netplan
+eth1_ip: 192.168.1.12/24
+
+...

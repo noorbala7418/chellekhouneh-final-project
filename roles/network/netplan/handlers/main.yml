@@ -1,0 +1,9 @@
+---
+# handlers file for nginx-netplan
+- name: "netplan generate config"
+  command: netplan generate
+  notify: "netplan apply config"
+
+- name: "netplan apply config"
+  command: netplan apply
+...

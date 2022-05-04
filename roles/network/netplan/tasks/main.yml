@@ -1,0 +1,16 @@
+---
+- name: "config netplan"
+  become: true
+  tags:
+    - netplan_conf
+  block:
+  - name: copy network config file
+    ansible.builtin.template:
+      backup: true
+      src: 60-private-network.yaml.j2
+      dest: /etc/netplan/60-private-network.yaml
+      owner: root
+      group: root
+      mode: 0644
+    notify: "netplan generate config"
+...

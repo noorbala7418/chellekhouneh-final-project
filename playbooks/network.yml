@@ -1,0 +1,11 @@
+---
+- name: setup private network
+  hosts: all
+  become: true
+  gather_facts: false
+  tags: apply_netplan
+  roles:
+    - role: "../roles/network/netplan"
+      vars:
+        eth1_ip: "{{ hostvars[inventory_hostname]['private_ip'] }}"
+...
