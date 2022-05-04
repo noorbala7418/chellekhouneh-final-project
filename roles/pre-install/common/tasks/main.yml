@@ -1,0 +1,38 @@
+---
+# tasks file for common
+
+- name: "Setup common settings and install softwares"
+  tags:
+    - setup-common
+  become: true
+  block:
+    - name: "install packages and upgrade"
+      ansible.builtin.include_tasks:
+        file: "install-upgrade.yml"
+      tags:
+        - install_requirements
+
+    - name: "reconfiure dns settings"
+      ansible.builtin.include_tasks:
+        file: "dns-setter.yml"
+      tags:
+        - dns_maintenance
+
+    - name: "sshd hardening + set public keys"
+      ansible.builtin.include_tasks:
+        file: "ssh-hardening.yml"
+      tags:
+        - ssh_hardening
+
+    - name: "setup ntp"
+      ansible.builtin.include_tasks:
+        file: "ntp-conf.yml"
+      tags:
+        - ntp_conf
+
+    - name: "preserve tmux history"
+      ansible.builtin.include_tasks:
+        file: "tmux/tmux_history.yml"
+      tags: 
+        - tmux_history
+...

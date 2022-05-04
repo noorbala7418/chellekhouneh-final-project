@@ -1,0 +1,45 @@
+---
+
+- name: Check if line1 is already inserted
+  lineinfile:
+    state: absent
+    path: "{{ item }}/.bashrc"
+    regexp: "^ ?shopt -s histappend"
+  check_mode: true
+  changed_when: false
+  register: check
+
+- name: Insert line1 and its comment
+  blockinfile:
+    path: "{{ item }}/.bashrc"
+    block: |
+      # added by sistan - tmux history
+      # append history entries..
+      shopt -s histappend
+  when: check.found == 0
+
+
+- name: Check if line2 is already inserted
+  lineinfile:
+    state: absent
+    path: "{{ item }}/.bashrc"
+    regexp: "^ ?PROMPT_COMMAND"
+  check_mode: true
+  changed_when: false
+  register: check
+
+- name: Insert line2 and its comment
+  blockinfile:
+    path: "{{ item }}/.bashrc"
+    block: |
+      # added by sistan - tmux history
+      # After each command, save and reload history
+      PROMPT_COMMAND="history -a; history -c; history -r; $PROMPT_COMMAND"
+  when: check.found == 0
+
+- name: "execute .bashrc"
+  shell: "source {{ item }}/.bashrc"
+  args:
+    executable: /usr/bin/bash
+
+...

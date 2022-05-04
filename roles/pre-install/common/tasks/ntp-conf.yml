@@ -1,0 +1,36 @@
+---
+
+- name: change time zone in /etc/timezone
+  copy:
+    src: timezone
+    dest: /etc/timezone
+    backup: true
+    mode: 0644
+
+- name: unlink corrent localtime (UTC)
+  file:
+    path: /etc/localtime
+    state: absent
+
+- name: link new localtime (tehran)
+  file:
+    src: /usr/share/zoneinfo/Asia/Tehran
+    dest: /etc/localtime
+    owner: root
+    group: root
+    state: link
+  notify: 
+    - start ntp service
+
+- name: add ntp official pool
+  lineinfile:
+    path: /etc/ntp.conf
+    insertafter: '^(pool ntp.ubuntu.com)$'
+    line: 'pool pool.ntp.org'
+    firstmatch: yes
+    state: present
+    backup: yes
+  notify: 
+    - restart ntp service
+
+...

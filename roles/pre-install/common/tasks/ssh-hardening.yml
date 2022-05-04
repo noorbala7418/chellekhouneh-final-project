@@ -1,0 +1,22 @@
+---
+
+- name: Configure sshd hardening
+  ansible.builtin.copy:
+    src: sshd_config
+    dest: /etc/ssh/sshd_config
+    owner: root
+    group: root
+    mode: '0644'
+    validate: /usr/sbin/sshd -t -f %s
+    backup: true
+  notify:
+  - restart sshd
+
+- name: Set authorized key for user ubuntu copying it from current user
+  ansible.posix.authorized_key:
+    user: "{{ ansible_user }}"
+    exclusive: false
+    state: present
+    key: "{{ lookup('file','public_keys') }}" 
+
+...

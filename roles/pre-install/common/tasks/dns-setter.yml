@@ -1,0 +1,21 @@
+---
+
+- name: start and enable resolvconf
+  systemd:
+    name: resolvconf
+    state: started
+    daemon_reload: yes
+    enabled: yes
+
+- name: "add dns ips"
+  lineinfile:
+    path: /etc/resolvconf/resolv.conf.d/head
+    line: "{{ item }}"
+    state: present
+    backup: yes
+  loop:
+    - "nameserver 8.8.8.8"
+    - "nameserver 4.2.2.4"
+  notify:
+    - restart resolvconf
+...

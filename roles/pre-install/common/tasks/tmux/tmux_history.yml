@@ -1,0 +1,12 @@
+---
+- name: "find home dir for normal users"
+  shell: awk -F":" '$3>=1000||$3==0{print $6}' /etc/passwd
+  args:
+    executable: /bin/bash
+  register: home_dirs
+
+- name: add needed lines to .bashrc file of normal users
+  include_tasks: check_perform.yml
+  with_lines: echo "{{ home_dirs.stdout }}"
+
+...

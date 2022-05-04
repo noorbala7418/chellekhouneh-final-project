@@ -1,0 +1,9 @@
+---
+- name: Check that the .bashrc file exists
+  stat:
+    path: "{{ item }}/.bashrc"
+  register: stat_result
+
+- name: add needed lines for tmux history preservation
+  include_tasks: tmux_lines.yml
+  when: stat_result.stat.exists

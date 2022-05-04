@@ -1,0 +1,51 @@
+---
+
+- name: copy mirror list to sources.list
+  ansible.builtin.copy:
+    dest: "/etc/apt/sources.list"
+    src: sources.list
+    backup: true
+    owner: root
+    group: root
+    mode: 0644
+
+- name: install require packages
+  apt:
+    name: 
+      - net-tools
+      - iptables
+      - iptables-persistent
+      - resolvconf
+      - tmux
+      - vim
+      - git
+      - python3
+      - python3-pip
+      - curl
+      - ntp
+      - gnupg-agent
+      - python-apt
+      - apt-transport-https
+      - python3-apt
+      - gnupg2
+      - gnupg
+      - gpg
+      - wget
+      - ca-certificates
+      - software-properties-common
+    update_cache: true
+
+- name: upgrade system
+  apt:
+    upgrade: yes
+    allow_downgrade: true
+    allow_unauthenticated: true
+  register: upgrade_check
+
+- name: reboot system
+  reboot:
+    msg: "System reboot after 5 sec ..."
+    pre_reboot_delay: 5
+  when: upgrade_check.changed == true
+
+...
