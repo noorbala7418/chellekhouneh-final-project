@@ -1,0 +1,9 @@
+---
+- hosts: master1
+  become: true
+  gather_facts: false
+  tags: "kube_longhorn_setup"
+  roles:
+    - role: "../roles/storage/longhorn"
+
+...
