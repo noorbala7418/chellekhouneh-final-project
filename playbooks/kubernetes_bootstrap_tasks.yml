@@ -4,7 +4,7 @@
   hosts: kuber_nodes
   become: true
   gather_facts: false
-  tags: kuber_master_initial
+  tags: kuber_master_initial_pull_image
   roles:
     - role: "../roles/kubernetes_roles/kubeadm-custom-image"
 
@@ -12,17 +12,18 @@
   hosts: master1
   become: true
   gather_facts: false
-  tags: kuber_master_initial
+  tags: kuber_master_initial_kubeadm_init
   roles:
     - role: "../roles/kubernetes_roles/kube-master-initial"
 
-- ansible.builtin.import_playbook: "kuber_join_master.yml"
+- ansible.builtin.import_playbook: "kuber-join-master.yml"
 
-- ansible.builtin.import_playbook: "kuber_join_worker.yml"
+- ansible.builtin.import_playbook: "kuber-join-worker.yml"
 
 - name: config kubectl on all nodes
   hosts: kuber_nodes
   become: true
+  tags: kubectl_configs
   gather_facts: false
   roles:
     - role: "../roles/kubernetes_roles/kubectl-config"
