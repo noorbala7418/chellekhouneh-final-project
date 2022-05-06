@@ -12,4 +12,21 @@
     dest: $HOME/.kube/config
     remote_src: yes
 
+- name: create kubectl bash completion file
+  shell: "kubectl completion bash > ~/.kube_complete"
+  args:
+    chdir: $HOME
+    creates: .kube_complete
+
+- name: add source command to bashrc file
+  ansible.builtin.lineinfile:
+    dest: $HOME/.bashrc
+    insertafter: EOF
+    line: "source $HOME/.kube_complete"
+    backup: true
+
+- name: re-read bashrc file
+  ansible.builtin.shell: "source $HOME/.bashrc"
+  args:
+    chdir: $HOME
 ...
