@@ -1,0 +1,7 @@
+namespace: monitoring
+resources:
+- prometheus-create-namespace.yaml
+- prometheus-clusterRole.yaml
+- prometheus-config-map.yaml
+- prometheus-service.yaml
+- prometheus-deployment.yaml

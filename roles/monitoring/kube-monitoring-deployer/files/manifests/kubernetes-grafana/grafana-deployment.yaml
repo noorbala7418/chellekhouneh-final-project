@@ -1,0 +1,79 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: grafana-pvc
+  namespace: monitoring
+spec:
+  accessModes:
+    - ReadWriteOnce
+  storageClassName: longhorn
+  resources:
+    requests:
+      storage: 500Mi
+
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: grafana
+  namespace: monitoring
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: grafana
+  template:
+    metadata:
+      name: grafana
+      labels:
+        app: grafana
+    spec:
+      containers:
+      - name: grafana
+        image: "dockerhub.ir/grafana/grafana:8.4.5"
+        ports:
+        - name: grafana
+          containerPort: 3000
+
+        resources:
+          limits:
+            memory: "600Mi"
+            cpu: "1000m"
+          requests: 
+            memory: 500M
+            cpu: "500m"
+
+        env:
+          - name: GF_SECURITY_ADMIN_USER
+            value: admin
+
+          - name: GF_AUTH_DISABLE_LOGIN_FORM
+            value: "false"
+
+          - name: GF_USERS_ALLOW_SIGN_UP
+            value: "false"
+
+          - name: GF_SECURITY_ADMIN_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: grafana-admin-password
+                key: GF_SECURITY_ADMIN_PASSWORD
+
+        volumeMounts:
+          - mountPath: /var/lib/grafana
+            name: grafana-storage
+
+          - mountPath: /etc/grafana/provisioning/datasources
+            name: grafana-datasources
+            readOnly: false
+
+      volumes:
+        - name: grafana-storage
+          persistentVolumeClaim:
+            claimName: grafana-pvc
+
+        - name: grafana-datasources
+          configMap:
+              defaultMode: 0644
+              name: grafana-datasources

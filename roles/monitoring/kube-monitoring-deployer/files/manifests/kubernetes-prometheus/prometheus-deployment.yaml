@@ -1,0 +1,65 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: prometheus-pvc
+  namespace: monitoring
+spec:
+  accessModes:
+    - ReadWriteOnce
+  storageClassName: longhorn
+  resources:
+    requests:
+      storage: 500Mi
+
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: prometheus-deployment
+  namespace: monitoring
+  labels:
+    app: prometheus-server
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: prometheus-server
+  template:
+    metadata:
+      labels:
+        app: prometheus-server
+    spec:
+      containers:
+        - name: prometheus
+          image: "dockerhub.ir/prom/prometheus:v2.34.0"
+          # securityContext:
+          #   allowPrivilegeEscalation: false
+          #   runAsUser: 0
+          args:
+            - "--config.file=/etc/prometheus/prometheus.yml"
+            - "--storage.tsdb.path=/prometheus/"
+            - "--web.listen-address=0.0.0.0:9090"
+            - "--web.route-prefix=/"
+            - "--web.external-url=http://127.0.0.1:9090"
+            # - "--web.external-url=http://127.0.0.1:9090/prometheus"
+            - "--web.enable-lifecycle"
+          ports:
+            - containerPort: 9090
+          volumeMounts:
+            - name: prometheus-config-volume
+              mountPath: /etc/prometheus
+            - name: prometheus-storage-volume
+              mountPath: /prometheus
+          resources:
+            limits:
+              cpu: "0.5"
+              memory: "500Mi"
+      volumes:
+        - name: prometheus-config-volume
+          configMap:
+            defaultMode: 0644
+            name: prometheus-server-conf
+        - name: prometheus-storage-volume
+          persistentVolumeClaim:
+            claimName: prometheus-pvc

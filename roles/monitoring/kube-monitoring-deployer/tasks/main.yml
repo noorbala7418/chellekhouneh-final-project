@@ -1,0 +1,31 @@
+---
+# tasks file for kube-monitoring-deployer
+- name: create directory for monitoring configs
+  ansible.builtin.file:
+    path: "{{ longhorn_config_path }}"
+    mode: 0755
+
+- name: copy monitoring required files
+  ansible.builtin.copy:
+    src: "files/manifests/"
+    dest: "{{ monitoring_stack_config_path }}"
+    mode: 0644
+
+- name: hashing grafana_password
+  ansible.builtin.shell: "echo -n '{{ grafana_password }}' | base64"
+  register: grafana_password_hash
+
+- name: copy grafana secret template
+  ansible.builtin.template:
+    src: grafana-secret.yml.j2
+    dest: "{{ monitoring_stack_config_path }}/kubernetes-grafana/grafana-secret.yml"
+    mode: 0644
+
+- name: setup monitoring stack
+  ansible.builtin.shell: "kubectl apply -k {{ monitoring_stack_config_path }}/{{ item }}/"
+  loop:
+    - kube-state-metrics-configs
+    - kubernetes-prometheus
+    - kubernetes-grafana
+
+...
