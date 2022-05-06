@@ -1,0 +1,11 @@
+---
+
+- name: setup monitoring configuration
+  hosts: monitoring
+  become: true
+  gather_facts: false
+  tags: setup_monitoring_config
+  roles:
+    - role: "../roles/monitoring/kube-monitoring-deployer"
+
+...
