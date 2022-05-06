@@ -10,7 +10,8 @@
     --upload-certs \
     --pod-network-cidr={{ pod_network_cidr }} \
     --apiserver-advertise-address={{ hostvars['master1']['private_ip'] }} \
-    --control-plane-endpoint \"{{ hostvars['lb']['private_ip'] }}:6443\" >> cluster_init.txt"
+    --control-plane-endpoint \"{{ hostvars['lb']['private_ip'] }}:6443\" \
+    --cri-socket=/var/run/cri-dockerd.sock >> cluster_init.txt"
   args:
     chdir: $HOME
     creates: cluster_init.txt
