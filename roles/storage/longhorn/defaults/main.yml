@@ -1,0 +1,4 @@
+---
+longhorn_config_path: "/opt/kube-longhorn-configs"
+
+...

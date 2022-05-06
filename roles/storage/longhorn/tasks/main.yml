@@ -1,0 +1,17 @@
+---
+# tasks file for storage/longhorn
+
+- name: create directory for longhorn configs
+  ansible.builtin.file:
+    path: "{{ longhorn_config_path }}"
+    mode: 0755
+
+- name: copy longhorn required files
+  ansible.builtin.copy:
+    src: "files/manifests/"
+    dest: "{{ longhorn_config_path }}"
+
+- name: setup longhorn storage
+  ansible.builtin.shell: "kubectl apply -k {{ longhorn_config_path }}/"
+
+...
