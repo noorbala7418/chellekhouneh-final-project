@@ -22,7 +22,7 @@
     image: "{{ haproxy_img_name }}"
     network_mode: host
     volumes:
-      - "{{ haproxy_conf_dir }}/haproxy.cfg:/usr/local/etc/haproxy/haproxy.cfg"
+      - "{{ haproxy_conf_dir }}/haproxy.cfg:/usr/local/etc/haproxy/haproxy.cfg:ro"
     restart_policy: always
     detach: true
 

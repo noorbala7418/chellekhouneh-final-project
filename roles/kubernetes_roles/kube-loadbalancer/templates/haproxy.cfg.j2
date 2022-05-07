@@ -21,6 +21,6 @@ backend kube-apiserver
    default-server inter 10s downinter 5s rise 2 fall 2 slowstart 60s maxconn 250 maxqueue 256 weight 100
 {% for host in groups.masters -%}
 {% filter indent(width=2) %}
-   server {{ hostvars[host].inventory_hostname }} {{ hostvars[host]['private_ip'] }}:6443 check
+   server {{ hostvars[host].inventory_hostname }} {{ hostvars[host]['private_ip'].split('/')[0] }}:6443 check
 {% endfilter %}
 {% endfor %}
