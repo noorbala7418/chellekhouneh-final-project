@@ -1,0 +1,11 @@
+---
+
+- name: setup webserver
+  hosts: loadbalancers
+  become: true
+  gather_facts: false
+  tags: webserver_setup 
+  roles:
+    - role: "../roles/webserver"
+
+...
