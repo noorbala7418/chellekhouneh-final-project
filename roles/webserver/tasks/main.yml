@@ -1,0 +1,37 @@
+---
+# tasks file for roles/webserver
+
+- name: create prometheus password file
+  community.general.htpasswd:
+    path: "{{ prometheus_password_file_path }}"
+    name: "{{ prometheus_login_user }}"
+    password: "{{ prometheus_login_password }}"
+    owner: root
+    group: root
+    mode: 0640
+
+- name: create config path
+  ansible.builtin.file:
+    state: directory
+    path: monitoring_nginx_config_path
+    mode: 0755
+    owner: root
+    group: root
+
+- name: copy monitoring template
+  ansible.builtin.template:
+    src: monitoring.conf.j2
+    dest: "{{ monitoring_nginx_config_path }}/monitoring.conf"
+    mode: 0644
+
+- name: run nginx container
+  community.docker.docker_container:
+    name: nginx
+    image: dockerhub.ir/nginx:1.21.6-alpine
+    restart_policy: always
+    network_mode: host
+    detach: true
+    volumes:
+      - "{{ prometheus_password_file_path }}:/etc/nginx/conf.d/.htpasswd:ro"
+      - "{{ monitoring_nginx_config_path }}:/etc/nginx/conf.d"
+...
