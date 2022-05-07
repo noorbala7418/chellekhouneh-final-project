@@ -8,4 +8,5 @@
     - role: "../roles/network/netplan"
       vars:
         eth1_ip: "{{ hostvars[inventory_hostname]['private_ip'] }}"
+        eth1_gw_ip: "{{ hostvars[inventory_hostname]['private_net_gw_ip'] }}"
 ...

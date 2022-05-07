@@ -1,14 +1,16 @@
-# This file is generated from Ansible.  Changes
-# to it will not persist across an instance reboot.  To disable cloud-init's
-# network configuration capabilities, write a file
-# /etc/cloud/cloud.cfg.d/99-disable-network-config.cfg with the following:
-# network: {config: disabled}
 network:
     version: 2
     ethernets:
         eth1:
             dhcp4: false
+{% if (inventory_hostname in groups.kuber_nodes) %}
+            dhcp4-overrides:
+                use-routes: false
+{% if eth1_enable_gateway %}
+            gateway4: {{ eth1_gw_ip }}
+{% else %}{% endif %}
+{% else %}{% endif %}
             addresses:
-                    - {{ eth1_ip }}
+                - {{ eth1_ip }}
             mtu: 1442
             set-name: eth1

@@ -9,7 +9,9 @@ tags:
 Required vars: 
 
 ```yaml
-eth1_ip: 192.168.1.12/24
+eth1_ip: "192.168.1.12/24"
+eth1_enable_gateway: false
+eth1_gw_ip: "192.168.1.1"
 ```
 
 Example Playbook
