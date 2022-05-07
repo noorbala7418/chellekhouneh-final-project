@@ -27,4 +27,8 @@
         - bootstrap_kuber
 
 - import_playbook: "playbooks/network.yml"
+  vars:
+    eth1_enable_gateway: false
+  tags:
+    - network_tasks
 ...
