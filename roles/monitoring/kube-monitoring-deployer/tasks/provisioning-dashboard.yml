@@ -1,0 +1,36 @@
+---
+
+- name: "get all the files in files/dashboards"
+  ansible.builtin.command: ls -1 "{{ monitoring_stack_dashboard_path }}"
+  register: grafana_dashboards_list
+
+- name: Set the correct data source name in the dashboard
+  ansible.builtin.replace:
+    dest: "{{ monitoring_stack_dashboard_path }}/{{ item }}"
+    regexp: '"(?:\${)?DS_[A-Z0-9_-]+(?:})?"'
+    replace: '"{{ datasource_name }}"'
+  with_lines: "{{ grafana_dashboards_list.stdout }}"
+  ignore_errors: true
+
+- name: import dashboard from local
+  community.grafana.grafana_dashboard:
+    grafana_url: "{{ grafana_url }}"
+    url_username: "admin"
+    url_password: "{{ grafana_password }}"
+    state: present
+    org_id: 1
+    commit_message: Updated by ansible
+    overwrite: yes
+    path: "{{ monitoring_stack_dashboard_path }}/{{ item }}"
+  with_lines: echo "{{ all.stdout }}"
+
+- name: Import Grafana dashboard from grafana_website
+  community.grafana.grafana_dashboard:
+    grafana_url: "{{ grafana_url }}"
+    url_username: "admin"
+    url_password: "{{ grafana_password }}"
+    org_id: 1
+    dashboard_id: "{{ item }}"
+  loop: "{{ grafana_get_dashboards_list }}"
+
+...

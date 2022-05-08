@@ -1,5 +1,17 @@
 ---
 # defaults file for kube-monitoring-deployer
-monitoring_stack_config_path: "/opt/monitoring"
+monitoring_stack_config_path: "/opt/monitoring/kuber"
+monitoring_stack_dashboard_path: "/opt/monitoring/dashboards"
+
+grafana_datasource_name: prometheus
 grafana_password: "admin123"
+grafana_url: "http://127.0.0.1:30030"
+
+grafana_get_dashboards_list:
+  - 8588
+  - 12006
+  - 315
+  - 1860
+  - 7589
+  - 721
 ...

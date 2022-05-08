@@ -2,8 +2,17 @@
 # tasks file for kube-monitoring-deployer
 - name: create directory for monitoring configs
   ansible.builtin.file:
-    path: "{{ longhorn_config_path }}"
+    path: "{{ item }}"
     mode: 0755
+  loop:
+    - "{{ monitoring_stack_config_path }}"
+    - "{{ monitoring_stack_dashboard_path }}"
+
+- name: copy grafana dashboards
+  ansible.builtin.copy:
+    src: "files/dashboards/"
+    dest: "{{ monitoring_stack_dashboard_path }}"
+    mode: 0644
 
 - name: copy monitoring required files
   ansible.builtin.copy:
@@ -28,4 +37,5 @@
     - kubernetes-prometheus
     - kubernetes-grafana
 
+- ansible.builtin.import_playbook: provisioning-dashboard.yml
 ...
