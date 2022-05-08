@@ -1,0 +1,50 @@
+---
+shecan_dns: 185.51.200.2
+
+# kubernetes installation
+kube_component_version: "1.23.6-00"
+
+# loadbalancer
+haproxy_conf_dir: "/opt/haproxy"
+haproxy_img_name: "dockerhub.ir/haproxy:2.4.16-alpine3.15"
+
+# pull k8s images
+kubeadm_img_repository: "k8s.noorbala7418.ir"
+kuber_image_version: "v1.23.6"
+
+# k8s master init
+pod_network_cidr: "10.244.0.0/16"
+
+# longhorn
+longhorn_config_path: "/opt/kube-longhorn-configs"
+
+# monitoring role
+monitoring_stack_config_path: "/opt/monitoring/kuber"
+monitoring_stack_dashboard_path: "/opt/monitoring/dashboards"
+
+grafana_datasource_name: prometheus
+grafana_password: "{{ vault.monitoring.grafana.admin_password }}"
+grafana_url: "http://127.0.0.1:30030"
+
+grafana_get_dashboards_list:
+  - 8588
+  - 12006
+  - 315
+  - 1860
+  - 7589
+  - 721
+
+# webserver
+monitoring_nginx_config_path: "/opt/nginx/configs"
+
+prometheus_nodeport: 30090
+prometheus_domain: "prom.noorbala7418.ir"
+prometheus_login_user: "{{ vault.monitoring.prometheus.login_user }}"
+prometheus_login_password: "{{ vault.monitoring.prometheus.login_password }}"
+prometheus_password_file_path: "{{ monitoring_nginx_config_path  }}/.htpasswd"
+
+grafana_nodeport: 30030
+grafana_domain: "grafana.noorbala7418.ir"
+
+
+...

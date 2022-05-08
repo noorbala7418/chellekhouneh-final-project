@@ -1,0 +1,207 @@
+---
+
+all:
+  children:
+
+    loadbalancers:
+      hosts:
+        lb: 
+          ansible_host: 94.101.186.19
+          private_ip: "192.168.1.6/24"
+          ansible_user: ubuntu
+          ansible_become_method: sudo
+          private_ports: [6443, 39045]
+          public_ports: [80, 443]
+          private_subnet: "192.168.1.0/24"
+          private_net_gw_ip: "192.168.1.1" 
+
+    masters:
+      hosts:
+        master1:
+          ansible_host: 94.101.186.86
+          private_ip: 192.168.1.10/24
+          ssh_forward_port: 1022
+          ansible_user: ubuntu
+          ansible_become_method: sudo
+          private_net_gw_ip: "192.168.1.1" 
+
+        master2:
+          ansible_host: 94.101.186.144
+          ssh_forward_port: 1122
+          private_ip: 192.168.1.11/24
+          ansible_user: ubuntu
+          ansible_become_method: sudo
+          private_net_gw_ip: "192.168.1.1" 
+
+        master3:
+          ansible_host: 94.101.186.144
+          private_ip: 192.168.1.12/24
+          ssh_forward_port: 1222
+          ansible_user: ubuntu
+          ansible_become_method: sudo
+          private_net_gw_ip: "192.168.1.1" 
+
+    workers:
+      hosts:
+        worker1:
+          ansible_host: 94.101.185.203
+          private_ip: 192.168.1.20/24
+          ssh_forward_port: 2022
+          ansible_user: ubuntu
+          ansible_become_method: sudo
+          private_net_gw_ip: "192.168.1.1" 
+
+        worker2:
+          ansible_host: 94.101.185.203
+          ssh_forward_port: 2122
+          private_ip: 192.168.1.21/24
+          ansible_user: ubuntu
+          ansible_become_method: sudo
+          private_net_gw_ip: "192.168.1.1" 
+
+        worker3:
+          ansible_host: 94.101.185.203
+          private_ip: 192.168.1.22/24
+          ssh_forward_port: 2222
+          ansible_user: ubuntu
+          ansible_become_method: sudo
+          private_net_gw_ip: "192.168.1.1"
+
+    test:
+      hosts:
+        test-test:
+          ansible_host: 192.168.122.71
+          private_ip: 192.168.1.20/24
+          ansible_user: server
+          anisble_become_method: sudo
+          ansible_sudo_pass: hggplk
+          ansible_password: hggplk
+
+
+    kuber_nodes:
+      children:
+        masters:
+        workers:
+
+    # webserver:
+    #   hosts:
+    #     nginx:
+    #       ansible_user: ubuntu
+    #       ansible_host: 188.121.122.19 
+    #       anisble_become_method: sudo
+    #       private_ip: 192.168.0.10
+    #       private_subnet: 192.168.0.0/24
+    #       private_ports: [9114, 9113, 4040, 81, 9100]
+    #       public_ports: [443, 80]
+    #     #   ansible_sudo_password: 1234
+    #     #   ansible_ssh_private_key_file: balh
+    #     test-nginx:
+    #       ansible_host: 192.168.122.71
+    #       ansible_user: server
+    #       anisble_become_method: sudo
+    #       ansible_sudo_pass: hggplk
+    #       ansible_password: hggplk
+
+    # elasticsearch:
+    #   hosts:
+    #     elastic:
+    #       ansible_host: 188.121.122.3
+    #       ansible_user: ubuntu
+    #       anisble_become_method: sudo
+    #       private_ip: 192.168.0.14
+    #       private_subnet: 192.168.0.0/24
+    #       private_ports: [9114, 5601, 9100, 9200, 9300]
+    #     test-elastic:
+    #       ansible_host: 192.168.122.71
+    #       ansible_user: server
+    #       anisble_become_method: sudo
+    #       ansible_sudo_pass: hggplk
+    #       ansible_password: hggplk
+
+    # monitoring:
+    #   hosts:
+    #     prom_server:
+    #       ansible_host: 188.121.123.87
+    #       ansible_user: ubuntu
+    #       anisble_become_method: sudo
+    #       private_ip: 192.168.0.13
+    #       private_subnet: 192.168.0.0/24
+    #       private_ports: [9094, 9090, 9114, 9100,3000]
+    #     test-prom:
+    #       ansible_host: 192.168.122.71
+    #       ansible_user: server
+    #       anisble_become_method: sudo
+    #       ansible_sudo_pass: hggplk
+    #       ansible_password: hggplk
+
+    # databases:
+    #   hosts:
+    #     db:
+    #       ansible_host: 188.121.123.235
+    #       ansible_user: ubuntu
+    #       anisble_become_method: sudo
+    #       private_ip: 192.168.1.11
+    #       private_subnet: 192.168.1.0/24
+    #       private_ports: [9114, 9104, 9100, 3306]
+    #     test-db:
+    #       ansible_host: 192.168.122.71
+    #       ansible_user: server
+    #       anisble_become_method: sudo
+    #       ansible_sudo_pass: hggplk
+    #       ansible_password: hggplk
+
+    # backends:
+    #   hosts:
+    #     # rest:
+    #     #   ansible_host: 188.121.120.96
+    #     #   ansible_port: 3122
+    #     #   ansible_user: ubuntu
+    #     #   anisble_become_method: sudo
+    #     #   private_ip: 192.168.0.11
+    #     #   private_subnet: 192.168.0.0/24
+    #     #   private_ports: [9100, 8080, 9114, 18080]
+    #     test-rest:
+    #       ansible_host: 192.168.122.71
+    #       ansible_user: server
+    #       anisble_become_method: sudo
+    #       ansible_sudo_pass: hggplk
+    #       ansible_password: hggplk
+    #       private_ip: 192.168.0.11
+    #       private_subnet: 192.168.0.0/24
+    #       private_ports: [9100, 8080, 9114, 18080]
+
+    # gateway:
+    #   hosts:
+    #     gw:
+    #       ansible_host: 188.121.120.96
+    #       ansible_user: ubuntu
+    #       anisble_become_method: sudo
+    #     test-gw:
+    #       ansible_host: 192.168.122.71
+    #       ansible_user: server
+    #       anisble_become_method: sudo
+    #       ansible_sudo_pass: hggplk
+    #       ansible_password: hggplk
+
+    # alert:
+    #   hosts:
+    #     # bot:
+    #     #   ansible_host: 185.235.40.21
+    #     #   ansible_user: ubuntu
+    #     #   anisble_become_method: sudo
+    #     #   gw_ip: 188.121.120.96/32
+    #     #   public_ports: [9100, 9114, 9119]
+    #     test-bot:
+    #       ansible_host: 192.168.122.71
+    #       ansible_user: server
+    #       anisble_become_method: sudo
+    #       ansible_sudo_pass: hggplk
+    #       ansible_password: hggplk
+
+    # public:
+    #   children:
+    #     gateway:
+    #     alert:
+    #     webserver:
+
+...
