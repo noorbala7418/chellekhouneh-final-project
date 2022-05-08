@@ -1,0 +1,11 @@
+---
+
+- name: setup gateway ssh and internet providing
+  hosts: all
+  become: true
+  gather_facts: false
+  tags: firewall_applier
+  roles:
+    - role: "../roles/firewall/iptables"
+
+...
