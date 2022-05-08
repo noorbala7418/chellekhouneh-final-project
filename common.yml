@@ -30,7 +30,7 @@
   vars:
     eth1_enable_gateway: false
   tags:
-    - network_tasks
+    - network_tasks_step_common
 
 - import_playbook: ./playbooks/firewall.yml
   vars:
