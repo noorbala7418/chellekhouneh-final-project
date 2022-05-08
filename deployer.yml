@@ -1,0 +1,38 @@
+---
+
+- import_playbook: ./playbooks/firewall.yml
+  vars:
+    firewall_deny_eth0: true
+  tags:
+    - firewall_tasks_step_deployer
+
+- import_playbook: "playbooks/network.yml"
+  vars:
+    eth1_enable_gateway: true
+  tags:
+    - network_tasks_step_deployer
+
+- import_playbook: ./playbooks/loadbalancer-tasks.yml
+  tags:
+    - kube_loadbalancer
+
+- import_playbook: ./playbooks/kubernetes_bootstrap_tasks.yml
+  tags:
+    - kuber_init
+
+- import_playbook: ./playbooks/kube-storage-deplyer.yml
+  tags:
+    - kube_storage
+
+
+########### kafka?
+
+- import_playbook: ./playbooks/monitoring.yml
+  tags:
+    - kube_monitor
+
+- import_playbook: ./playbooks/webserver-tasks.yml
+  tags:
+    - kube_monitor_public
+
+...
