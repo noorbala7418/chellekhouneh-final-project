@@ -1,3 +1,6 @@
 venv/
+ansible.cfg
+testi.yml
+TODO
 
 !.gitignore
