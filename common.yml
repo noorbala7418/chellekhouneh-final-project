@@ -31,4 +31,11 @@
     eth1_enable_gateway: false
   tags:
     - network_tasks
+
+- import_playbook: ./playbooks/firewall.yml
+  vars:
+    firewall_deny_eth0: false
+  tags:
+    - firewall_tasks_step_common  
+
 ...
