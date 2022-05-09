@@ -1,7 +1,7 @@
 ---
 
 - name: setup monitoring configuration
-  hosts: monitoring
+  hosts: master1
   become: true
   gather_facts: false
   tags: setup_monitoring_config

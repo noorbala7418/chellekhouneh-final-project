@@ -1,7 +1,7 @@
 ---
 
 - name: setup and deploy kafka
-  hosts: all
+  hosts: master1
   become: true
   gather_facts: false
   tags: kafka_deployer
