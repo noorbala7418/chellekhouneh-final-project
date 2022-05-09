@@ -31,8 +31,6 @@ grafana_get_dashboards_list:
   - 12006
   - 315
   - 1860
-  - 7589
-  - 721
 
 # webserver
 monitoring_nginx_config_path: "/opt/nginx/configs"
@@ -46,5 +44,7 @@ prometheus_password_file_path: "{{ monitoring_nginx_config_path  }}/.htpasswd"
 grafana_nodeport: 30030
 grafana_domain: "grafana.noorbala7418.ir"
 
+# kafka
+kafka_stack_config_path: "/opt/kafka/kuber"
 
 ...
