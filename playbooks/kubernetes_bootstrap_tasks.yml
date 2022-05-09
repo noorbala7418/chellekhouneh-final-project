@@ -21,7 +21,7 @@
 - ansible.builtin.import_playbook: "kuber-join-worker.yml"
 
 - name: config kubectl on all nodes
-  hosts: kuber_nodes
+  hosts: masters
   become: true
   tags: kubectl_configs
   gather_facts: false
