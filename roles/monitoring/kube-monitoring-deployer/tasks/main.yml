@@ -3,6 +3,7 @@
 - name: create directory for monitoring configs
   ansible.builtin.file:
     path: "{{ item }}"
+    state: directory
     mode: 0755
   loop:
     - "{{ monitoring_stack_config_path }}"
@@ -37,5 +38,5 @@
     - kubernetes-prometheus
     - kubernetes-grafana
 
-- ansible.builtin.import_playbook: provisioning-dashboard.yml
+- ansible.builtin.include_tasks: provisioning-dashboard.yml
 ...
