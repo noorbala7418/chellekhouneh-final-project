@@ -9,8 +9,8 @@
   ansible.builtin.shell: "kubeadm init \
     --upload-certs \
     --pod-network-cidr={{ pod_network_cidr }} \
-    --apiserver-advertise-address={{ hostvars['master1']['private_ip'] }} \
-    --control-plane-endpoint \"{{ hostvars['lb']['private_ip'] }}:6443\" \
+    --apiserver-advertise-address={{ hostvars['master1']['private_ip'].split('/')[0] }} \
+    --control-plane-endpoint \"{{ hostvars['lb']['private_ip'].split('/')[0] }}:6443\" \
     --cri-socket=/var/run/cri-dockerd.sock >> cluster_init.txt"
   args:
     chdir: $HOME
@@ -26,9 +26,13 @@
   args:
     chdir: $HOME
     creates: pod_network.txt
-  retries: 3
+  retries: 5
   delay: 10
   register: result
   until: result is succeeded
+
+- name: Check pod networks
+  ansible.builtin.pause:
+    prompt: "Please Check it on production and Press ENTER"
 
 ...
