@@ -1,4 +1,4 @@
 namespace: longhorn-system
 resources:
 - longhorn-setup.yaml
-- longhorn-storage-class.yml
+- longhorn-storage-class.yaml
