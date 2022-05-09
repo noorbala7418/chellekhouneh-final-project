@@ -4,6 +4,7 @@
 - name: create directory for longhorn configs
   ansible.builtin.file:
     path: "{{ longhorn_config_path }}"
+    state: directory
     mode: 0755
 
 - name: copy longhorn required files
