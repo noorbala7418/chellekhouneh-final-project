@@ -6,7 +6,7 @@ all:
     loadbalancers:
       hosts:
         lb: 
-          ansible_host: 94.101.186.19
+          ansible_host: 1.2.3.4
           ansible_port: 22
           private_ip: "192.168.1.6/24"
           ansible_user: ubuntu
@@ -19,7 +19,7 @@ all:
     masters:
       hosts:
         master1:
-          ansible_host: 94.101.186.19
+          ansible_host: 1.2.3.4
           ansible_port: 1022
           ssh_forward_port: 1022
           private_ip: 192.168.1.10/24
@@ -28,7 +28,7 @@ all:
           private_net_gw_ip: "192.168.1.1" 
 
         master2:
-          ansible_host: 94.101.186.19
+          ansible_host: 1.2.3.4
           ansible_port: 1122
           ssh_forward_port: 1122
           private_ip: 192.168.1.11/24
@@ -37,7 +37,7 @@ all:
           private_net_gw_ip: "192.168.1.1" 
 
         master3:
-          ansible_host: 94.101.186.19
+          ansible_host: 1.2.3.4
           ansible_port: 1222
           ssh_forward_port: 1222
           private_ip: 192.168.1.12/24
@@ -48,7 +48,7 @@ all:
     workers:
       hosts:
         worker1:
-          ansible_host: 94.101.186.19
+          ansible_host: 1.2.3.4
           ansible_port: 2022
           ssh_forward_port: 2022
           private_ip: 192.168.1.20/24
@@ -57,7 +57,7 @@ all:
           private_net_gw_ip: "192.168.1.1" 
 
         worker2:
-          ansible_host: 94.101.186.19
+          ansible_host: 1.2.3.4
           ansible_port: 2122
           ssh_forward_port: 2122
           private_ip: 192.168.1.21/24
@@ -66,7 +66,7 @@ all:
           private_net_gw_ip: "192.168.1.1" 
 
         worker3:
-          ansible_host: 94.101.186.19
+          ansible_host: 1.2.3.4
           ansible_port: 2222
           ssh_forward_port: 2222
           private_ip: 192.168.1.22/24
