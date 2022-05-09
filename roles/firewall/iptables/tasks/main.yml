@@ -35,6 +35,12 @@
         - "restart iptables-persistent"
       when: "inventory_hostname not in groups['loadbalancers']"
 
+    - name: "restart iptables-persistent"
+      ansible.builtin.systemd:
+        name: netfilter-persistent
+        state: restarted
+        enabled: true
+
     - name: "restart docker service"
       ansible.builtin.systemd:
         name: docker
