@@ -1,0 +1,11 @@
+---
+- name: "Checkmode: verify this task"
+  hosts: loadbalancers
+  become: false
+  gather_facts: false
+  tasks:
+    - name: check
+      ansible.builtin.pause:
+        prompt: "check it"
+
+...
