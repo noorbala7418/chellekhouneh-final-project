@@ -1,0 +1,11 @@
+---
+
+- name: setup and deploy kafka
+  hosts: all
+  become: true
+  gather_facts: false
+  tags: kafka_deployer
+  roles:
+    - role: "../roles/queue/kafka"
+
+...
