@@ -26,7 +26,7 @@
     backup: true
 
 - name: re-read bashrc file
-  ansible.builtin.shell: "source $HOME/.bashrc"
+  ansible.builtin.shell: "/bin/bash -c 'source .bashrc'"
   args:
     chdir: $HOME
 ...
