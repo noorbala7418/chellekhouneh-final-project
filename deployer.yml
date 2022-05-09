@@ -24,8 +24,9 @@
   tags:
     - kube_storage
 
-
-########### kafka?
+- import_playbook: ./playbooks/kafka.yml
+  tags:
+    - kube_kafka
 
 - import_playbook: ./playbooks/monitoring.yml
   tags:
