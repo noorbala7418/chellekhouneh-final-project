@@ -2,5 +2,5 @@ venv/
 ansible.cfg
 testi.yml
 TODO
-
+vault-pass
 !.gitignore
