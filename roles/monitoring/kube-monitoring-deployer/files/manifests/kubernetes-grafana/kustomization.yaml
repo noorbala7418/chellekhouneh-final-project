@@ -1,6 +1,6 @@
 namespace: monitoring
 resources:
 - grafana-datasource-config.yaml
-- grafana-secret.yml
+- grafana-secret.yaml
 - grafana-service.yaml
 - grafana-deployment.yaml

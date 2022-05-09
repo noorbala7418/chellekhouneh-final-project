@@ -26,8 +26,8 @@
 
 - name: copy grafana secret template
   ansible.builtin.template:
-    src: grafana-secret.yml.j2
-    dest: "{{ monitoring_stack_config_path }}/kubernetes-grafana/grafana-secret.yml"
+    src: grafana-secret.yaml.j2
+    dest: "{{ monitoring_stack_config_path }}/kubernetes-grafana/grafana-secret.yaml"
     mode: 0644
 
 - name: setup monitoring stack
