@@ -9,7 +9,7 @@ haproxy_conf_dir: "/opt/haproxy"
 haproxy_img_name: "dockerhub.ir/haproxy:2.4.16-alpine3.15"
 
 # pull k8s images
-kubeadm_img_repository: "k8s.noorbala7418.ir"
+kubeadm_img_repository: "k8s.gcr.io"
 kuber_image_version: "v1.23.6"
 
 # k8s master init
