@@ -12,25 +12,37 @@
   tags:
     - network_tasks_step_deployer
 
+- ansible.builtin.import_playbook: ./playbooks/verifier.yml
+
 - import_playbook: ./playbooks/loadbalancer-tasks.yml
   tags:
     - kube_loadbalancer
+
+- ansible.builtin.import_playbook: ./playbooks/verifier.yml
 
 - import_playbook: ./playbooks/kubernetes_bootstrap_tasks.yml
   tags:
     - kuber_init
 
+- ansible.builtin.import_playbook: ./playbooks/verifier.yml
+
 - import_playbook: ./playbooks/kube-storage-deplyer.yml
   tags:
     - kube_storage
+
+- ansible.builtin.import_playbook: ./playbooks/verifier.yml
 
 - import_playbook: ./playbooks/kafka.yml
   tags:
     - kube_kafka
 
+- ansible.builtin.import_playbook: ./playbooks/verifier.yml
+
 - import_playbook: ./playbooks/monitoring.yml
   tags:
     - kube_monitor
+
+- ansible.builtin.import_playbook: ./playbooks/verifier.yml
 
 - import_playbook: ./playbooks/webserver-tasks.yml
   tags:
