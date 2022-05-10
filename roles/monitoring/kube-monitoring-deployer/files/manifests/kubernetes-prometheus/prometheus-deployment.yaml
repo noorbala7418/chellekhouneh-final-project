@@ -63,3 +63,6 @@ spec:
         - name: prometheus-storage-volume
           persistentVolumeClaim:
             claimName: prometheus-pvc
+
+      securityContext:
+        fsGroup: 0

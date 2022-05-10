@@ -32,11 +32,15 @@
     mode: 0644
 
 - name: setup monitoring stack
-  ansible.builtin.shell: "kubectl apply -k {{ monitoring_stack_config_path }}/{{ item }}/"
+  ansible.builtin.shell: "kubectl apply -f {{ monitoring_stack_config_path }}/{{ item }}/"
   loop:
     - kube-state-metrics-configs
+
+- name: setup monitoring stack
+  ansible.builtin.shell: "kubectl apply -k {{ monitoring_stack_config_path }}/{{ item }}/"
+  loop:
     - kubernetes-prometheus
     - kubernetes-grafana
 
-- ansible.builtin.include_tasks: provisioning-dashboard.yml
+# - ansible.builtin.include_tasks: provisioning-dashboard.yml
 ...

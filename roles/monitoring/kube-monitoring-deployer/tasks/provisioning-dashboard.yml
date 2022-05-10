@@ -22,7 +22,7 @@
     commit_message: Updated by ansible
     overwrite: yes
     path: "{{ monitoring_stack_dashboard_path }}/{{ item }}"
-  with_lines: echo "{{ all.stdout }}"
+  with_lines: echo "{{ grafana_dashboards_list.stdout }}"
 
 - name: Import Grafana dashboard from grafana_website
   community.grafana.grafana_dashboard:
