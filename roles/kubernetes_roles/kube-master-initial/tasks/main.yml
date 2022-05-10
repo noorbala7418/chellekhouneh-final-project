@@ -11,10 +11,24 @@
     --pod-network-cidr={{ pod_network_cidr }} \
     --apiserver-advertise-address={{ hostvars['master1']['private_ip'].split('/')[0] }} \
     --control-plane-endpoint \"{{ hostvars['lb']['private_ip'].split('/')[0] }}:6443\" \
-    --cri-socket=/var/run/cri-dockerd.sock >> cluster_init.txt"
+    --cri-socket=/var/run/cri-dockerd.sock \
+    --image-repository={{ kubeadm_img_repository }} \
+    --kubernetes-version={{ kuber_image_version }} >> cluster_init.txt"
   args:
     chdir: $HOME
     creates: cluster_init.txt
+
+- name: Create .kube directory
+  ansible.builtin.file:
+    path: $HOME/.kube
+    state: directory
+    mode: 0755
+
+- name: Copy admin.conf to user's kube config
+  ansible.builtin.copy:
+    src: /etc/kubernetes/admin.conf
+    dest: $HOME/.kube/config
+    remote_src: yes
 
 - name: Remove pod network debug file
   ansible.builtin.file:
