@@ -1,13 +1,18 @@
 ---
 # tasks file for roles/webserver
+- name: install python library for htpasswd
+  ansible.builtin.pip:
+    name: passlib
+    executable: pip3
+    extra_args: "-i http://p.docker-registry.ir/PyPi/simple --trusted-host p.docker-registry.ir"
 
 - name: create prometheus password file
   community.general.htpasswd:
     path: "{{ prometheus_password_file_path }}"
     name: "{{ prometheus_login_user }}"
     password: "{{ prometheus_login_password }}"
-    owner: root
-    group: root
+    owner: 101
+    group: 101
     mode: 0640
 
 - name: create config path
