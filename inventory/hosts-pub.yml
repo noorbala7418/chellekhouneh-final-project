@@ -14,7 +14,22 @@ all:
           private_subnet: "192.168.1.0/24"
           private_ports: [6443, 39045]
           public_ports: [80, 443]
-          private_net_gw_ip: "192.168.1.1" 
+          private_net_gw_ip: "192.168.1.6"
+
+
+    edges:
+      hosts:
+        edge-server: 
+          ansible_host: 1.2.3.4
+          ansible_port: 22
+          ssh_forward_port: 3022
+          private_ip: "192.168.1.7/24"
+          ansible_user: ubuntu
+          ansible_become_method: sudo
+          private_subnet: "192.168.1.0/24"
+          private_ports: []
+          public_ports: [80, 443]
+          private_net_gw_ip: "192.168.1.6"
 
     masters:
       hosts:
@@ -25,7 +40,7 @@ all:
           private_ip: 192.168.1.10/24
           ansible_user: ubuntu
           ansible_become_method: sudo
-          private_net_gw_ip: "192.168.1.1" 
+          private_net_gw_ip: "192.168.1.6"
 
         master2:
           ansible_host: 1.2.3.4
@@ -34,7 +49,7 @@ all:
           private_ip: 192.168.1.11/24
           ansible_user: ubuntu
           ansible_become_method: sudo
-          private_net_gw_ip: "192.168.1.1" 
+          private_net_gw_ip: "192.168.1.6"
 
         master3:
           ansible_host: 1.2.3.4
@@ -43,7 +58,7 @@ all:
           private_ip: 192.168.1.12/24
           ansible_user: ubuntu
           ansible_become_method: sudo
-          private_net_gw_ip: "192.168.1.1" 
+          private_net_gw_ip: "192.168.1.6"
 
     workers:
       hosts:
@@ -54,7 +69,7 @@ all:
           private_ip: 192.168.1.20/24
           ansible_user: ubuntu
           ansible_become_method: sudo
-          private_net_gw_ip: "192.168.1.1" 
+          private_net_gw_ip: "192.168.1.6"
 
         worker2:
           ansible_host: 1.2.3.4
@@ -63,7 +78,7 @@ all:
           private_ip: 192.168.1.21/24
           ansible_user: ubuntu
           ansible_become_method: sudo
-          private_net_gw_ip: "192.168.1.1" 
+          private_net_gw_ip: "192.168.1.6"
 
         worker3:
           ansible_host: 1.2.3.4
@@ -72,7 +87,7 @@ all:
           private_ip: 192.168.1.22/24
           ansible_user: ubuntu
           ansible_become_method: sudo
-          private_net_gw_ip: "192.168.1.1"
+          private_net_gw_ip: "192.168.1.6"
 
     kuber_nodes:
       children:
