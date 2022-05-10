@@ -99,3 +99,6 @@ spec:
           configMap:
             defaultMode: 0440
             name: zookeeper-config-map
+
+      securityContext:
+        fsGroup: 1001
