@@ -36,10 +36,12 @@
     name: cri-docker.service
     daemon_reload: true
     state: started
+    enabled: true
 
 - name: start and enable cri socket
   ansible.builtin.systemd:
     name: cri-docker.socket
     state: started
+    enabled: true
 
 ...
