@@ -20,20 +20,25 @@
         src: "gw.v4.j2"
         dest: "/etc/iptables/rules.v4"
         mode: 0600
-      notify:
-        - "restart iptables-persistent"
       when: "inventory_hostname in groups['loadbalancers']"
 
-    - name: "copy rules for non gateway hosts"
+    - name: "copy rules for kuber nodes"
       ansible.builtin.template:
         src: "rules.v4.j2"
         dest: "/etc/iptables/rules.v4"
         mode: 0600
         trim_blocks: true
         lstrip_blocks: true
-      notify:
-        - "restart iptables-persistent"
-      when: "inventory_hostname not in groups['loadbalancers']"
+      when: "inventory_hostname in groups['kuber_nodes']"
+
+    - name: "copy rules for edge servers"
+      ansible.builtin.template:
+        src: "rules.v4.j2"
+        dest: "/etc/iptables/rules.v4"
+        mode: 0600
+        trim_blocks: true
+        lstrip_blocks: true
+      when: "inventory_hostname in groups['edges']"
 
     - name: "restart iptables-persistent"
       ansible.builtin.systemd:

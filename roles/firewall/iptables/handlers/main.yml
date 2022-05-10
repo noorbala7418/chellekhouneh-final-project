@@ -1,14 +1,14 @@
 ---
 # handlers file for rest_iptables
 
-- name: "persist iptabels"
-  community.general.iptables_state:
-    state: saved
-    path: /etc/iptables/rules.v4
+# - name: "persist iptabels"
+#   community.general.iptables_state:
+#     state: saved
+#     path: /etc/iptables/rules.v4
 
-- name: "restart iptables-persistent"
-  systemd:
-    name: netfilter-persistent
-    state: restarted
-    enabled: true
+# - name: "restart iptables-persistent"
+#   systemd:
+#     name: netfilter-persistent
+#     state: restarted
+#     enabled: true
 ...
