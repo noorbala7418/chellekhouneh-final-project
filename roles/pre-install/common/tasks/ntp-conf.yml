@@ -19,8 +19,12 @@
     owner: root
     group: root
     state: link
-  notify: 
-    - start ntp service
+
+- name: start ntp service
+  systemd:
+    name: ntp
+    state: started
+    enabled: true
 
 - name: add ntp official pool
   lineinfile:
@@ -30,7 +34,10 @@
     firstmatch: yes
     state: present
     backup: yes
-  notify: 
-    - restart ntp service
+
+- name: restart ntp service
+  systemd:
+    name: ntp
+    state: restarted
 
 ...

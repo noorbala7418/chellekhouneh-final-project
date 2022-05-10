@@ -15,7 +15,6 @@
       - net-tools
       - iptables
       - iptables-persistent
-      - resolvconf
       - tmux
       - vim
       - git

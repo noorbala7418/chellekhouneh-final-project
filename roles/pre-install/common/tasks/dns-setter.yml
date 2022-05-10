@@ -1,21 +1,32 @@
 ---
 
-- name: start and enable resolvconf
+- name: stop and disable systemd-resolved
   systemd:
-    name: resolvconf
-    state: started
-    daemon_reload: yes
-    enabled: yes
+    name: systemd-resolved
+    state: stopped
+    daemon_reload: false
+    enabled: false
+
+- name: unlink previous resolv.conf file
+  ansible.builtin.file:
+    path: /etc/resolv.conf
+    state: absent
+
+- name: create new resolv.conf file
+  ansible.builtin.file:
+    path: /etc/resolv.conf
+    state: touch
+    mode: 0644
+    owner: root
+    group: root
 
 - name: "add dns ips"
   lineinfile:
-    path: /etc/resolvconf/resolv.conf.d/head
+    path: /etc/resolv.conf
     line: "{{ item }}"
     state: present
     backup: yes
   loop:
     - "nameserver 8.8.8.8"
     - "nameserver 4.2.2.4"
-  notify:
-    - restart resolvconf
 ...
