@@ -6,11 +6,11 @@
     - setup-common
   become: true
   block:
-    # - name: "install packages and upgrade"
-    #   ansible.builtin.include_tasks:
-    #     file: "install-upgrade.yml"
-    #   tags:
-    #     - install_requirements
+    - name: "install packages and upgrade"
+      ansible.builtin.include_tasks:
+        file: "install-upgrade.yml"
+      tags:
+        - install_requirements
 
     - name: "reconfiure dns settings"
       ansible.builtin.include_tasks:
