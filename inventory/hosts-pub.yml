@@ -23,7 +23,7 @@ all:
           ansible_host: 1.2.3.4
           ansible_port: 22
           ssh_forward_port: 3022
-          private_ip: "192.168.1.7/24"
+          private_ip: "192.168.1.30/24"
           ansible_user: ubuntu
           ansible_become_method: sudo
           private_subnet: "192.168.1.0/24"
