@@ -49,4 +49,7 @@
   ansible.builtin.pause:
     prompt: "Please Check it on production and Press ENTER"
 
+- name: "remove coredns pods to get public IP"
+  ansible.builtin.command: "kubectl -n kube-system delete pod --selector 'k8s-app=kube-dns'"
+
 ...
