@@ -33,7 +33,7 @@
 
     - name: "copy rules for edge servers"
       ansible.builtin.template:
-        src: "rules.v4.j2"
+        src: "edge.v4.j2"
         dest: "/etc/iptables/rules.v4"
         mode: 0600
         trim_blocks: true
