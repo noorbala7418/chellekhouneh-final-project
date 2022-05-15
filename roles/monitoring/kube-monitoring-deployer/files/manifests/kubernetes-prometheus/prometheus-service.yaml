@@ -21,7 +21,7 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: promethus-inner
+  name: prometheus-inner
   namespace: monitoring
   annotations:
       prometheus.io/scrape: 'true'

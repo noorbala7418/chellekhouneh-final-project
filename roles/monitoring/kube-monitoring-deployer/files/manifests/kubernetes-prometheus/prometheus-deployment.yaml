@@ -9,7 +9,7 @@ spec:
   storageClassName: longhorn
   resources:
     requests:
-      storage: 500Mi
+      storage: 4Gi
 
 ---
 
@@ -33,12 +33,11 @@ spec:
       containers:
         - name: prometheus
           image: "dockerhub.ir/prom/prometheus:v2.34.0"
-          # securityContext:
-          #   allowPrivilegeEscalation: false
-          #   runAsUser: 0
           args:
             - "--config.file=/etc/prometheus/prometheus.yml"
             - "--storage.tsdb.path=/prometheus/"
+            - "--storage.tsdb.retention.time=1d"
+            - "--storage.tsdb.retention.size=10KB"
             - "--web.listen-address=0.0.0.0:9090"
             - "--web.route-prefix=/"
             - "--web.external-url=http://127.0.0.1:9090"
@@ -53,8 +52,11 @@ spec:
               mountPath: /prometheus
           resources:
             limits:
-              cpu: "0.5"
-              memory: "500Mi"
+              cpu: "500m"
+              memory: "1Gi"
+            requests:
+              cpu: "200m"
+              memory: "200Mi"
       volumes:
         - name: prometheus-config-volume
           configMap:
